@@ -40,9 +40,10 @@ REM Install webdriver-manager to automatically handle browser drivers
 
 if errorlevel 1 (
     echo ❌ Failed to install webdriver-manager
-    echo 💡 Manual installation: pip install webdriver-manager
+    echo 💡 Manual installation: %PIP_CMD% install webdriver-manager
+    echo 💡 You can still use the tool without browser automation
 ) else (
-    echo ✅ WebDriver manager installed
+    echo ✅ WebDriver manager installed successfully
 )
 
 echo.
