@@ -120,7 +120,7 @@ if errorlevel 1 (
 )
 
 echo.
-echo ✅ Successfully installed mnemonic library!
+echo ✅ Successfully installed required libraries (mnemonic + selenium)!
 echo.
 echo 🎉 Setup completed successfully!
 echo.
