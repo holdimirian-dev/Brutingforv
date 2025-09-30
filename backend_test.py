@@ -213,11 +213,15 @@ class TestTerminalMnemonicRecovery(unittest.TestCase):
         mock_driver.get.assert_called_once()
         print("✅ MetaMask automation (mocked) working correctly")
     
-    def test_recovery_logic_with_known_mnemonic(self):
+    @patch('builtins.input')
+    def test_recovery_logic_with_known_mnemonic(self, mock_input):
         """Test the core recovery logic with a known valid mnemonic"""
         # Create test words with missing position 22
         test_words = self.test_mnemonic_words.copy()
         test_words[21] = None  # Remove word at position 22
+        
+        # Mock user input to stop after finding first word
+        mock_input.return_value = "n"  # Don't continue searching
         
         # Mock WebDriver setup to avoid browser issues in container
         with patch.object(self.recovery, 'setup_edge_driver', return_value=None):
