@@ -466,19 +466,57 @@ class AdvancedMnemonicRecoveryGUI:
             self.root.after(0, lambda: self.recovery_error(str(e)))
     
     def test_with_metamask(self, mnemonic, word):
-        """Test mnemonic with MetaMask (placeholder for now)"""
-        # This is a complex feature that would require:
-        # 1. Opening MetaMask extension
-        # 2. Automating the import process
-        # 3. Checking if the wallet is accessible
-        # For now, we'll return a simulated result
-        
-        self.log_message(f"🌐 Testing '{word}' with MetaMask... (simulated)")
-        time.sleep(0.5)  # Simulate browser interaction time
-        
-        # In a real implementation, this would use Selenium WebDriver
-        # to interact with MetaMask
-        return {"status": "simulated", "message": "MetaMask testing not yet implemented"}
+        """Test mnemonic with MetaMask using browser automation"""
+        try:
+            self.log_message(f"🌐 Opening {self.browser_var.get()} browser for MetaMask testing...")
+            
+            # Import the MetaMask testing module
+            from metamask_integration import MetaMaskTester
+            
+            tester = MetaMaskTester(self.browser_var.get())
+            setup_result = tester.setup_driver()
+            
+            if setup_result is not True:
+                return {"status": "error", "message": f"Browser setup failed: {setup_result[1]}"}
+            
+            # Open MetaMask website for manual testing
+            website_result = tester.open_metamask_website()
+            
+            if website_result[0]:
+                self.log_message("🌐 Browser opened - Manual testing required")
+                
+                # Show instructions to user
+                instructions = f"""
+MANUAL METAMASK TEST for word '{word}':
+
+1. Browser is now open with MetaMask website
+2. Install MetaMask extension if not already installed
+3. In MetaMask, choose "Import using Secret Recovery Phrase"
+4. Enter this complete mnemonic:
+
+{mnemonic}
+
+5. If import SUCCESS ✅: This word '{word}' is CORRECT
+6. If import FAILS ❌: This word '{word}' is WRONG
+
+IMPORTANT: Only test with small amounts first!
+                """
+                
+                # Don't close browser immediately - let user test
+                return {
+                    "status": "manual_test_ready", 
+                    "message": instructions,
+                    "browser_opened": True
+                }
+            else:
+                tester.close_driver()
+                return {"status": "error", "message": f"Failed to open MetaMask: {website_result[1]}"}
+                
+        except ImportError:
+            return {"status": "error", "message": "Selenium not installed. Please run setup_advanced.bat"}
+        except Exception as e:
+            return {"status": "error", "message": f"MetaMask test error: {str(e)}"}
+    
     
     def recovery_success(self, elapsed_time, attempts):
         """Handle successful recovery"""
