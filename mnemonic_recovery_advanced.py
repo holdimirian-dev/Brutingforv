@@ -540,13 +540,13 @@ IMPORTANT: Only test with small amounts first!
                 line = "    " + "  ".join([f"{k+1:2d}:{words[k]:>10}" for k in range(j, min(j+6, 24))])
                 self.log_message(line)
             
-                    if 'metamask_test' in combo:
-                        self.log_message(f"  MetaMask test: {combo['metamask_test']['status']}")
-                        if combo['metamask_test']['status'] == 'manual_test_ready':
-                            self.log_message("     🌐 Browser opened for manual testing")
-                        elif combo['metamask_test']['status'] == 'error':
-                            self.log_message(f"     ❌ {combo['metamask_test']['message']}")
-                    
+            if 'metamask_test' in combo:
+                self.log_message(f"  MetaMask test: {combo['metamask_test']['status']}")
+                if combo['metamask_test']['status'] == 'manual_test_ready':
+                    self.log_message("     🌐 Browser opened for manual testing")
+                elif combo['metamask_test']['status'] == 'error':
+                    self.log_message(f"     ❌ {combo['metamask_test']['message']}")
+            
             self.log_message("")
         
         self.log_message("=" * 80)
