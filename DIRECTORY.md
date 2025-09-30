@@ -9,6 +9,20 @@ This folder contains all files needed for the BIP39 Mnemonic Recovery Tool:
 - **STILL PROBLEMS?**: Read `PYTHON_FIX.md` for guaranteed solutions
 - **EMERGENCY**: Run `emergency_fix.bat` for manual installation
 
+## 🆕 NEW ADVANCED VERSION AVAILABLE!
+
+### Advanced Features (Better Solution):
+- **`mnemonic_recovery_advanced.py`** - 🚀 **BETTER TOOL** with all features you requested
+- **`setup_advanced.bat`** - Setup for advanced version with browser testing
+- **`run_advanced_tool.bat`** - Run the advanced version  
+- **`test_advanced_tool.bat`** - Test if everything works before using
+
+### Why Use Advanced Version:
+- ✅ **Any missing position** (not just 22)
+- ✅ **Save/Load words** (no more re-typing!)  
+- ✅ **Find ALL valid words** (not just first wrong one)
+- ✅ **Real MetaMask testing** in browser
+
 ---
 
 ## 🎯 MAIN FILES (What you need to use):
