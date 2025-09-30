@@ -104,16 +104,16 @@ echo 📦 Installing required packages...
 echo This may take a minute...
 echo.
 
-%PIP_CMD% install mnemonic
+%PIP_CMD% install mnemonic selenium
 if errorlevel 1 (
-    echo ❌ Failed to install mnemonic library
+    echo ❌ Failed to install required libraries
     echo.
     echo 🔧 MANUAL SOLUTION:
     echo Open Command Prompt as Administrator and run:
-    echo   %PIP_CMD% install mnemonic
+    echo   %PIP_CMD% install mnemonic selenium
     echo.
     echo Or try:
-    echo   %PYTHON_CMD% -m pip install mnemonic
+    echo   %PYTHON_CMD% -m pip install mnemonic selenium
     echo.
     pause
     exit /b 1
