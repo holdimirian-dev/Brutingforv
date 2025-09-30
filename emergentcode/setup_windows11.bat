@@ -9,47 +9,96 @@ echo ================================================================
 echo Installing Python dependencies and Edge WebDriver automation
 echo.
 
-REM Check if Python is installed
+REM Check if Python is installed - try multiple common commands
+set "PYTHON_CMD="
+
+echo 🔍 Searching for Python installation...
+
+REM Try 'python' command first
 python --version >nul 2>&1
-if errorlevel 1 (
-    echo ❌ Python not found in PATH
-    echo.
-    echo 💡 Please install Python 3.6+ from:
-    echo    https://python.org/downloads/
-    echo.
-    echo ⚠️  Make sure to check "Add Python to PATH" during installation
-    pause
-    exit /b 1
+if not errorlevel 1 (
+    set "PYTHON_CMD=python"
+    goto :python_found
 )
 
-echo ✅ Python found
-python --version
+REM Try 'py' command (Python Launcher for Windows)
+py --version >nul 2>&1
+if not errorlevel 1 (
+    set "PYTHON_CMD=py"
+    goto :python_found
+)
+
+REM Try 'python3' command
+python3 --version >nul 2>&1
+if not errorlevel 1 (
+    set "PYTHON_CMD=python3"
+    goto :python_found
+)
+
+REM Try common installation paths
+if exist "%LOCALAPPDATA%\Programs\Python\Python*\python.exe" (
+    for /d %%i in ("%LOCALAPPDATA%\Programs\Python\Python*") do (
+        set "PYTHON_CMD=%%i\python.exe"
+        goto :python_found
+    )
+)
+
+if exist "%PROGRAMFILES%\Python*\python.exe" (
+    for /d %%i in ("%PROGRAMFILES%\Python*") do (
+        set "PYTHON_CMD=%%i\python.exe"
+        goto :python_found
+    )
+)
+
+REM Python not found
+echo ❌ Python not found in PATH or common locations
+echo.
+echo 💡 Python installation options:
+echo    1. Download from: https://python.org/downloads/
+echo    2. ⚠️  IMPORTANT: Check "Add Python to PATH" during installation
+echo    3. Or install from Microsoft Store: https://apps.microsoft.com/store/detail/python-39/9P7QFQMJRFP7
+echo.
+echo 🔧 If Python is installed, try these commands manually:
+echo    python --version
+echo    py --version  
+echo    python3 --version
+echo.
+echo 🛠️ Quick fix: Try running this setup with 'py setup_windows11.bat' instead
+pause
+exit /b 1
+
+:python_found
+echo ✅ Python found: %PYTHON_CMD%
+%PYTHON_CMD% --version
 
 echo.
 echo 📦 Installing Python dependencies...
 
 REM Install core mnemonic library
-python -m pip install mnemonic>=0.21
+%PYTHON_CMD% -m pip install mnemonic>=0.21
 if errorlevel 1 (
     echo ❌ Failed to install mnemonic library
+    echo 💡 Try running as administrator or check internet connection
     pause
     exit /b 1
 )
 echo ✅ BIP39 mnemonic library installed
 
 REM Install Selenium for browser automation
-python -m pip install selenium>=4.35.0
+%PYTHON_CMD% -m pip install selenium>=4.35.0
 if errorlevel 1 (
     echo ❌ Failed to install selenium
+    echo 💡 Try running as administrator or check internet connection
     pause
     exit /b 1
 )
 echo ✅ Selenium browser automation installed
 
 REM Install WebDriver Manager for automatic Edge driver management
-python -m pip install webdriver-manager>=4.0.0
+%PYTHON_CMD% -m pip install webdriver-manager>=4.0.0
 if errorlevel 1 (
     echo ❌ Failed to install webdriver-manager
+    echo 💡 Try running as administrator or check internet connection
     pause
     exit /b 1
 )
@@ -78,7 +127,7 @@ echo.
 echo 🧪 Testing installation...
 
 REM Test the installation
-python -c "
+%PYTHON_CMD% -c "
 try:
     from mnemonic import Mnemonic
     mnemo = Mnemonic('english')
@@ -101,6 +150,7 @@ if errorlevel 1 (
     echo.
     echo ❌ Installation test failed
     echo 💡 Please check the error messages above
+    echo 💡 Try running as administrator
     pause
     exit /b 1
 )
@@ -111,7 +161,7 @@ echo 🎉 INSTALLATION COMPLETE!
 echo ================================================================
 echo.
 echo 🚀 To run the mnemonic recovery tool:
-echo    python server.py
+echo    %PYTHON_CMD% server.py
 echo.
 echo 📋 Features available:
 echo   • Recover missing words from any position (1-24)
@@ -129,6 +179,6 @@ echo.
 echo 📖 Need help? Check the documentation files:
 echo   • README.md - Basic usage
 echo   • MNEMONIC_RECOVERY_README.md - Detailed guide
-echo   • USER_GUIDE.md - Step-by-step instructions
+echo   • WINDOWS11_RECOVERY_GUIDE.md - Complete guide
 echo.
 pause
