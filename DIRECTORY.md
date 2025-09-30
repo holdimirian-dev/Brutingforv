@@ -45,7 +45,13 @@ This folder contains all files needed for the BIP39 Mnemonic Recovery Tool:
 
 ## 🚀 QUICK START (For Dummies):
 
-### Windows Users:
+### Windows Users (RECOMMENDED - Advanced Version):
+1. **FIRST TIME**: Double-click `setup_advanced.bat` (installs everything you need)
+2. **TEST FIRST**: Double-click `test_advanced_tool.bat` (makes sure it works)
+3. **TO USE TOOL**: Double-click `run_advanced_tool.bat` (starts the advanced tool)
+4. **READ GUIDE**: Open `ADVANCED_USER_GUIDE.md` for full instructions
+
+### Windows Users (Basic Version):
 1. **FIRST TIME**: Double-click `setup.bat` (this installs what you need)
 2. **IF SETUP FAILS**: Read `PYTHON_FIX.md` or try `emergency_fix.bat`
 3. **TO USE TOOL**: Double-click `run_tool.bat` (this opens the recovery tool)
